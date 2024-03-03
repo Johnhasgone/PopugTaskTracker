@@ -1,0 +1,56 @@
+version: '3'
+services:
+
+  auth_db:
+    image: 'postgres:14.5-alpine'
+    container_name: auth_db
+    restart: always
+    environment:
+      - JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=90
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=auth
+    ports:
+      - '5432:5432'
+
+  auth:
+    platform: linux/amd64
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    privileged: true
+    depends_on:
+      - auth_db
+    ports:
+      - "9000:9000"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://auth_db:5432/auth
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+
+  tracker_db:
+    image: 'postgres:14.5-alpine'
+    container_name: tracker_db
+    restart: always
+    environment:
+      - JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=90
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=tracker
+    ports:
+      - '5434:5432'
+
+  tracker:
+    platform: linux/amd64
+    build:
+      context: ./tracker
+      dockerfile: Dockerfile
+    privileged: true
+    depends_on:
+      - tracker_db
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://tracker_db:5432/tracker
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
