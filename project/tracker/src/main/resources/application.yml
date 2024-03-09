@@ -1,9 +1,30 @@
 server:
   port: 8080
 
+logging:
+  level:
+    root: DEBUG
+    org.apache.tomcat.util.net.NioEndpoint: ERROR
+    sun.rmi: ERROR
+    java.io: ERROR
+    javax.management: ERROR
+
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://auth:9000
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://auth:9000
+  kafka:
+    admin:
+      auto-create: true
+    bootstrap-servers: broker:29092
+
+    producer:
+      retries: 3
+
+custom:
+  kafka:
+    task-created-topic: task.created
+    task-assigned-topic: task.assigned
+    task-completed-topic: task.completed
