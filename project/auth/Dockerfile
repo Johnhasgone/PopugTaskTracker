@@ -4,10 +4,10 @@ RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
 COPY ./pom.xml $PROJECT_DIR
-RUN mvn dependency:resolve
+RUN mvn dependency:go-offline -B
 
 COPY ./src $PROJECT_DIR/src
-RUN mvn install -DskipTests
+RUN mvn package -DskipTests
 
 FROM openjdk:21-slim-buster
 ENV PROJECT_DIR=/auth

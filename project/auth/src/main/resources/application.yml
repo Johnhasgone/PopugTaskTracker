@@ -3,30 +3,23 @@ server:
 
 logging:
   level:
-    org.springframework.security: trace
+    root: DEBUG
+    org.apache.tomcat.util.net.NioEndpoint: ERROR
+    sun.rmi: ERROR
+    java.io: ERROR
+    javax.management: ERROR
 
 spring:
   security:
-    user:
-      name: user
-      password: password
     oauth2:
       authorizationserver:
-        client:
-          oidc-client:
-            registration:
-              client-id: "oidc-client"
-              client-secret: "{noop}secret"
-              client-authentication-methods:
-                - "client_secret_basic"
-              authorization-grant-types:
-                - "authorization_code"
-                - "refresh_token"
-              redirect-uris:
-                - "http://127.0.0.1:8080/login/oauth2/code/oidc-client"
-              post-logout-redirect-uris:
-                - "http://127.0.0.1:8080/"
-              scopes:
-                - "openid"
-                - "profile"
-            require-authorization-consent: true
+        issuer: http://localhost:9000
+  kafka:
+    admin:
+      auto-create: true
+    bootstrap-servers: http://broker:9092
+
+custom:
+  kafka:
+    be-topic: acccounts.be
+    cud-topic: accounts.cud
