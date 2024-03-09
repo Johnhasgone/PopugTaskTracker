@@ -18,5 +18,6 @@ public class Task {
     @Enumerated
     private Status status;
     @ManyToOne
+    @JoinColumn(name = "account_id")
     private Account assignee;
 }
