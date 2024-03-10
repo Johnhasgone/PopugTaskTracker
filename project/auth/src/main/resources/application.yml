@@ -1,0 +1,28 @@
+server:
+  port: 9000
+
+logging:
+  level:
+    root: DEBUG
+    org.apache.tomcat.util.net.NioEndpoint: ERROR
+    sun.rmi: ERROR
+    java.io: ERROR
+    javax.management: ERROR
+
+spring:
+  security:
+    oauth2:
+      authorizationserver:
+        issuer: http://localhost:9000
+  kafka:
+    admin:
+      auto-create: true
+    bootstrap-servers: broker:29092
+
+    producer:
+      retries: 3
+
+custom:
+  kafka:
+    be-topic: acccounts.be
+    cud-topic: accounts.cud

@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: migration_1
+      author: "-"
+      changes:
+        - sqlFile:
+            path: migration_1.sql
+            relativeToChangelogFile: true
